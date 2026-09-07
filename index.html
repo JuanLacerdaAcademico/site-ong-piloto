@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piloto ONG - Sanity</title>
+  <title>ONG Piloto - Carrossel</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="card">
-    <h1 id="titulo-aviso">Carregando...</h1>
-    <p id="mensagem-aviso">Carregando...</p> 
-  </div>
+
+  <section class="carrossel-container">
+    <h2 id="carrossel-titulo">Carregando carrossel...</h2>
+    
+    <div class="slider">
+      <div class="slides" id="slides-container">
+        <!-- As imagens e legendas do Sanity serão inseridas aqui via JS -->
+      </div>
+
+      <!-- Botões de Navegação -->
+      <button class="prev" onclick="mudarSlide(-1)">&#10094;</button>
+      <button class="next" onclick="mudarSlide(1)">&#10095;</button>
+    </div>
+  </section>
+
   <script src="script.js"></script>
 </body>
 </html>
