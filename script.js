@@ -42,8 +42,9 @@ async function carregarCarrossel() {
     const response = await fetch(URL);
     const { result } = await response.json();
 
-    if (!result || !result.imagens) {
-      document.getElementById('carrossel-titulo').innerText = '';
+    if (!result || !result.imagens || result.imagens.length === 0) {
+      document.getElementById('carrossel-titulo').innerText = 'Nenhum carrossel encontrado.';
+      document.getElementById('slides-container').innerHTML = '';
       return;
     }
 
