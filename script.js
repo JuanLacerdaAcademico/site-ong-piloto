@@ -1,28 +1,49 @@
-const PROJECT_ID = 'n266tgrj'; // Substitua pelo seu Project ID real do Sanity
+const PROJECT_ID = 'n266tgrj'; 
 const DATASET = 'production';
 
-// Consulta GROQ buscando a imagem convertida para URL via CDN do Sanity
-const QUERY = encodeURIComponent(`*[_type == "carrossel"][0]{
-  titulo,
-  "imagens": imagens[]{
-    "url": asset->url,
-    legenda,
-    alt
+// ==========================================
+// 1. LÓGICA DO AVISO
+// ==========================================
+async function carregarAviso() {
+  const QUERY = encodeURIComponent('*[_type == "aviso"][0]');
+  const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
+
+  try {
+    const response = await fetch(URL);
+    const { result } = await response.json();
+
+    if (result) {
+      document.getElementById('aviso-titulo').innerText = result.titulo || 'Aviso';
+      document.getElementById('aviso-mensagem').innerText = result.mensagem || '';
+    }
+  } catch (error) {
+    console.error('Erro ao carregar aviso:', error);
   }
-}`);
+}
 
-const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
-
+// ==========================================
+// 2. LÓGICA DO CARROSSEL
+// ==========================================
 let slideAtual = 0;
 let totalSlides = 0;
 
 async function carregarCarrossel() {
+  const QUERY = encodeURIComponent(`*[_type == "carrossel"][0]{
+    titulo,
+    "imagens": imagens[]{
+      "url": asset->url,
+      legenda,
+      alt
+    }
+  }`);
+  const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
+
   try {
     const response = await fetch(URL);
     const { result } = await response.json();
 
     if (!result || !result.imagens) {
-      document.getElementById('carrossel-titulo').innerText = 'Nenhum carrossel encontrado.';
+      document.getElementById('carrossel-titulo').innerText = '';
       return;
     }
 
@@ -45,7 +66,7 @@ async function carregarCarrossel() {
 
     totalSlides = result.imagens.length;
   } catch (error) {
-    console.error('Erro ao carregar o carrossel do Sanity:', error);
+    console.error('Erro ao carregar o carrossel:', error);
   }
 }
 
@@ -64,5 +85,6 @@ function mudarSlide(direcao) {
   container.style.transform = `translateX(-${slideAtual * 100}%)`;
 }
 
-// Inicializar ao carregar a página
+// Executa as buscas de ambos os blocos ao carregar a página
+carregarAviso();
 carregarCarrossel();
