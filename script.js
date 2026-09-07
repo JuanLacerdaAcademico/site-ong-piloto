@@ -1,4 +1,4 @@
-const PROJECT_ID = 'SEU_PROJECT_ID';
+const PROJECT_ID = 'n266tgrj';
 const DATASET = 'production';
 const QUERY = encodeURIComponent('*[_type == "aviso"][0]');
 const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
